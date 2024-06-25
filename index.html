@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html manifest="app.manifest"> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Organaizer</title>
+<meta name="apple-mobile-web-app-title" content="Organaizer">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!--<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />-->
+<!--<link rel="stylesheet" href="all.css">-->
+<link rel="apple-touch-icon" href="res/icon.png">
+<style type="text/css">
+html,body{padding:0;margin:0;}
+body{font-family: Arial, sans-serif; font-size:16px; background-color: #6d9773; user-select: auto; -webkit-tap-highlight-color:transparent;}
+a{text-decoration:none; color:white;}
+#wrapper{position:absolute; width:100%; height:100%;}
+#panel{position:absolute; display:flex; flex-direction:row; font-size:18px; justify-content:space-between; align-items:center; width:inherit; height:40px; overflow:hidden; background-color:#3d483f; color:white; text-align:center; cursor:default;}
+#panel-bg{width:inherit; height:45px;}
+#panel #btn{width:45px; height:45px; cursor:pointer; background-color:#3d483f; display:flex; justify-content:center; align-items:center;}
+#panel #btn img{width:25px; height:25px;}
+#panel #btn:hover{opacity:0.7;}
+#panel .title{font-weight:500px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+#list,#list2,#list3,#list4{width:100%; height:calc(100%); overflow-y:auto; -webkit-overflow-scrolling:touch; }
+#list3,#list4{text-align:center;}
+input,select,textarea{width:calc(100% - 20px); margin-bottom:10px; background-color:#e8e8e8; border:1px solid #bcbcbc; outline:none; padding:10px; border-radius:10px; font-size:16px;}
+select{width:100%;}
+#content{margin:10px auto; width:calc(100% - 20px); margin:0 auto;}
+#content #title{margin:10px; text-align:center; font-size:18px;}
+#content #btn{width:100%; margin:5px auto; text-align:center; background-color:#3d483f; color:white; padding:12px 0; border-radius:10px;}
+#content #btn:active{background-color:#3d483f;}
+#items{margin:10px auto; width:calc(100% - 6px); font-size:14px; border:1px solid #dadada; background-color:#96af9a; overflow:hidden;}
+#list #items #item{display:flex; flex-direction:row; justify-content:space-between; align-items:center; cursor:pointer; border-bottom:1px solid #dfdfdf; overflow:hidden;}
+#list #items #item:hover{background-color:#96af9a;}
+#list #items #item #title{margin-left:8px; margin-right:4px; width:calc(100% - 34px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left;}
+#list #items #item #index{margin-right:10px; margin-left:4px; color:#96af9a; font-size:13px; white-space:nowrap; text-align:right; font-weight:bold;}
+#list #items #item:last-child{border-bottom:0;}
+#list2, #list3, #list4{display:none;}
+#pageContent{border: 1px solid #dadada; background-color: #96af9a; margin-bottom:15px; font-size:16px; padding:5px;}
+#pageContent img{max-width:100%;}
+#image{display:flex; justify-content:center; margin-bottom:15px; border:1px solid #dadada; background-color:white;}
+#image img{max-height:175px; max-width:100%;}
+.theme-switch {
+    position: relative;
+  display: inline-block;
+  width: 105px; /* Увеличили ширину */
+  height: 34px;
+}
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #0c3b2e;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #0c3b2e;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* Стиль для темной темы */
+body.dark {
+  background-color: #0c3b2e;
+  color: #fff;
+}
+.dark #panel {
+  background-color: #0c3b2e;
+}
+.dark #panel-bg {
+  background-color: #0c3b2e;
+}
+.dark #items {
+  background-color: #394646;
+  border-color: #394646;
+}
+.dark #list #items #item {
+  border-bottom-color: #96af9a;
+}
+.dark #list #items #item:hover {
+  background-color: #96af9a;
+}
+.dark #pageContent {
+  background-color: #96af9a;
+  border-color: #96af9a;
+}
+.dark #image {
+  background-color: #394646;
+  border-color: #394646;
+}
+/* Стиль для переключателя темы */
+.theme-switch label {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Выравнивание по центру */
+}
+.theme-switch .slider {
+  margin-right: 60px; /* Добавляем отступ справа */
+}
+.theme-switch img {
+  margin-left: 60px; /* Добавляем отступ слева */
+}
+.theme-switch span { /* Добавляем стиль для надписи */
+  font-size: 14px;
+  color: #060606; /* Серый цвет */
+}
+</style>
+<script type="text/javascript">
+let currentNotice = -1; // Текущее событие
+let currentNoticeType = 0; // Текущий тип
+let Cats = []; // Категории
+Cats.push('Личные дела'); // Добавление категорий
+Cats.push('Рабочие задачи');
+Cats.push('Покупки');
+Cats.push('Домашние дела');
+Cats.push('Проекты');
+Cats.push('Разное');
+// Функция для получения заметок из LocalStorage
+function getNotices() {
+    return JSON.parse(localStorage.getItem('notices')) || [];
+}
+// Функция для сохранения заметок в LocalStorage
+function saveNotices(notices) {
+    localStorage.setItem('notices', JSON.stringify(notices));
+}
+function TimeToStr(timeString) {
+  if (!timeString) return ""; // Возвращаем пустую строку, если timeString пустой
+  let [hours, minutes] = timeString.split(':'); // Разделяем на часы и минуты
+  // Добавляем ведущий ноль, если необходимо
+  hours = parseInt(hours, 10); 
+  minutes = parseInt(minutes, 10);
+  hours = hours < 10 ? '0' + hours : hours; 
+  minutes = minutes < 10 ? '0' + minutes : minutes; 
+  return `${hours}:${minutes}`; // Возвращаем отформатированную строку
+}
+// Перевод даты в строку
+function DateToStr(DateStr) {
+    let myDate = new Date(DateStr);
+    let myDateNum = myDate.getDate();
+    if (myDateNum < 10) myDateNum = '0' + myDateNum;
+    let myMonth = myDate.getMonth() + 1;
+    if (myMonth < 10) myMonth = '0' + myMonth;
+
+    return myDateNum + '.' + myMonth + '.' + myDate.getFullYear();
+}
+function StrToCharCodes(Str) {
+    let NewStr = '';
+    for (let i = 0; i < Str.length; i++)
+        NewStr += 'x' + Str.charCodeAt(i); // Перевод символов в номер символов
+    return NewStr;
+}
+// Обратная конвертация текста из базы данных
+function CharCodesToStr(Str) {
+    let NewStr = '';
+    if (Str.length === 0) return '';
+    if (Str[0] !== 'x') return '';
+    Str = Str.substring(1, Str.length);
+    Str += 'x';
+    while (Str.indexOf('x') > 0) {
+        NewStr += String.fromCharCode(parseInt(Str.substring(0, Str.indexOf('x')), 10)); // Перевод номера в символы
+        Str = Str.substring(Str.indexOf('x') + 1, Str.length);
+    }
+    return NewStr;
+}
+function showNotices() {
+    const notices = getNotices();
+  let List = document.getElementById('items');
+  List.innerHTML = '';
+
+  if (notices.length === 0) { 
+    List.innerHTML = '<div style="padding:15px;  text-align:center;">Добавьте событие</div>';
+    return;
+  }
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 1); // Прибавляем +1 день
+  let TopList = '';
+  let BottomList = '';
+  for (let i = 0; i < notices.length; i++) { 
+    const noticeDateTime = new Date(notices[i].datenotice + ' ' + notices[i].timenotice); 
+    if (currentDate >= noticeDateTime) {
+      TopList += '<div id="item" style="background-color:#45655a"><div id="title" onclick="showNotice(' + notices[i].id + ')">' + 
+                 CharCodesToStr(notices[i].name) + '<br><span style="color:#f1f1f1" onclick="showNotice(' + notices[i].id + ')">' + 
+                 Cats[notices[i].catid] + '</span><br><span style="color:#f1f1f1; font-size:13px;" onclick="showNotice(' + notices[i].id + ')">' + 
+                 'Дата: ' + DateToStr(notices[i].datenotice) + ' ' + TimeToStr(notices[i].timenotice) + '</span></div>' + 
+                 '<div id="index" onclick="remNotice(' + notices[i].id + ')"><img src="images/rem.png" /></div></div>';
+    } else {
+      BottomList += '<div id="item"><div id="title" onclick="showNotice(' + notices[i].id + ')">' + 
+                     CharCodesToStr(notices[i].name) + '<br><span style="color:#f1f1f1" onclick="showNotice(' + notices[i].id + ')">' + 
+                     Cats[notices[i].catid] + '</span><br><span style="color:#f1f1f1; font-size:13px;" onclick="showNotice(' + notices[i].id + ')">' + 
+                     'Дата: ' + DateToStr(notices[i].datenotice) + ' ' + TimeToStr(notices[i].timenotice) + '</span></div>' + 
+                     '<div id="index" onclick="remNotice(' + notices[i].id + ')"><img src="images/rem.png" /></div></div>';
+    }
+  }
+  List.innerHTML = TopList + BottomList;
+    TopList = '';
+    BottomList = '';
+}
+
+// Показываем событие
+function showNotice(n) {
+    const notices = getNotices();
+    const notice = notices.find(notice => notice.id === n);
+    if (!notice) return;
+    currentNotice = notice.id;
+    document.getElementById('list').style.display = 'none';
+    document.getElementById('list3').style.display = 'none';
+    document.getElementById('list2').style.display = 'block'; // Показываем нужный экран
+    document.getElementsByClassName('title')[1].innerHTML = CharCodesToStr(notice.name); // Выводим данные
+    document.getElementById('noticename').value = CharCodesToStr(notice.name);
+    document.getElementById('noticetype').selectedIndex = notice.catid;
+    document.getElementById('noticetext').value = CharCodesToStr(notice.notetext);
+    document.getElementById('timenotice').value = notice.timenotice;
+    document.getElementById('datenotice').value = notice.datenotice;
+}
+function newNotice() {
+    currentNotice = -1;
+    document.getElementById('list').style.display = 'none';
+    document.getElementById('list3').style.display = 'none';
+    document.getElementById('list2').style.display = 'block'; // Показываем нужный экран
+    document.getElementsByClassName('title')[1].innerHTML = 'Напоминание';
+    document.getElementById('noticetype').selectedIndex = 0; // Очищаем данные
+    currentNoticeType = 0;
+    document.getElementById('datenotice').valueAsDate = new Date();
+    document.getElementById('noticename').value = '';
+    document.getElementById('timenotice').value = '';
+    document.getElementById('noticetext').value = '';
+}
+function NoticeDone() {
+    if (document.getElementById('noticename').value.trim() === '') {
+        alert('Пожалуйста, заполните название!');
+        return;
+    }
+    const notices = getNotices();
+    if (currentNotice === -1) { // Если текущее событие новое, то добавляем новое событие
+        const newNotice = {
+            id: Date.now(),
+            catid: currentNoticeType,
+            name: StrToCharCodes(document.getElementById('noticename').value),
+            notetext: StrToCharCodes(document.getElementById('noticetext').value),
+            timenotice: document.getElementById('timenotice').value,
+            datenotice: document.getElementById('datenotice').value
+        };
+        notices.push(newNotice);
+    } else { // Если старое, то обновляем
+        const noticeIndex = notices.findIndex(notice => notice.id === currentNotice);
+        if (noticeIndex !== -1) {
+            notices[noticeIndex] = {
+                ...notices[noticeIndex],
+                name: StrToCharCodes(document.getElementById('noticename').value),
+                notetext: StrToCharCodes(document.getElementById('noticetext').value),
+                timenotice: document.getElementById('timenotice').value,
+                datenotice: document.getElementById('datenotice').value
+            };
+        }
+    }
+
+    saveNotices(notices);
+    backToMain();
+}
+
+// Удаляем заметку
+function remNotice(n) {
+    const notices = getNotices();
+    const updatedNotices = notices.filter(notice => notice.id !== n);
+    saveNotices(updatedNotices);
+    showNotices(); // Выводим заметки
+}
+// Сохраняем текущий тип заметки
+function changeNoticeType() {
+    currentNoticeType = parseInt(document.getElementById('noticetype').selectedIndex);
+}
+// Обновляем дату на текущую
+function UpdateDate() {
+    document.getElementById('datenotice').valueAsDate = new Date();
+}
+// Возврат на главный экран, выводим нужный экран
+function backToMain() {
+    showNotices();
+    document.getElementById('list3').style.display = 'none';
+    document.getElementById('list2').style.display = 'none';
+    document.getElementById('list').style.display = 'block';
+}
+// Возврат на экран, выводим нужный экран
+function goToInfo() {
+    document.getElementById('list2').style.display = 'none';
+    document.getElementById('list').style.display = 'none';
+    document.getElementById('list3').style.display = 'block';
+}
+// Переключение темы
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  const themeSwitch = document.getElementById('themeSwitch');
+  const moonIcon = document.getElementById('moonIcon');
+  const sunIcon = document.getElementById('sunIcon');
+
+  if (document.body.classList.contains('dark')) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display = 'none';
+  }
+}
+// Инициализация
+document.addEventListener('DOMContentLoaded', function () {
+    showNotices();
+    for (let i = 0; i < Cats.length; i++)
+        document.getElementById('noticetype').innerHTML += '<option value="' + i + '">' + Cats[i] + '</option>';
+});
+
+
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="list">
+		<div id="panel">
+			<div id="btn" onclick="goToInfo()"><img src="images/info.png" /></div>		
+			<div class="title">Organaizer</div>
+			<div id="btn" onclick="newNotice()"><img src="images/add.png" /></div>			
+		</div>
+		<div id="panel-bg"></div>
+		<div id="content">
+			<div id="items">
+			</div>
+		</div>
+	</div>
+	<div id="list2">
+		<div id="panel">
+			<div id="btn" onclick="backToMain()"><img src="images/back.png" /></div>
+			<div class="title">-</div>
+			<div id="btn" style="visibility:hidden"><img src="images/back.png" /></div>			
+		</div>
+		<div id="panel-bg"></div>
+		<div id="content">
+			Название: <br> 
+			<input style="margin-top:5px" id="noticename" type="text"><br>
+			Тип: <br>
+			<select size="1" onchange="changeNoticeType()" id="noticetype" style="margin-top:5px"></select>
+			<br><br>				
+			Описание: <br>
+			<textarea style="margin-top:5px" id="noticetext"></textarea>
+			<br><br>			
+      Время: <br>
+       <input style="margin-top:10px" id="timenotice" type="time"><br> 
+        <br> <br>
+			Дата: <br>
+			<input style="margin-top:10px" id="datenotice" type="date"><br>
+			<!--<div id="changeNotice"><div id="btn" onclick="UpdateDate()">Обновить</div></div>-->
+			<div id="btn" onclick="NoticeDone()">Сохранить</div>
+		</div>
+	</div>
+	<div id="list3">
+		<div id="panel">
+			<div id="btn" onclick="backToMain()"><img src="images/back.png" /></div>
+			<div class="title" id="sub-title2">О приложении</div>
+			<div id="btn" style="visibility:hidden"><img src="images/back.png" /></div>			
+		</div>
+		<div id="panel-bg"></div>
+		<div id="content">
+		<div id="pageContent"><br><b>Приложение Organaizer</b>. <br><br>Для Ваших напоминаний, встреч и заметок.<br><br>  <label class="theme-switch">
+            <input type="checkbox" id="themeSwitch" onclick="toggleTheme()">
+            <div class="slider">
+                <img id="sunIcon" src="images/sun.png" style="width: 40px; height: 40; margin-top: -10%; position: inherit; display: none;">
+                <img id="moonIcon" src="images/moon.png" style="width: 40px; height: 40px; margin-top: -10%; position: inherit; ">
+            </div>
+        </label></div>    
+		</div>
+	</div>
+</div>
+</body>
+</html>
